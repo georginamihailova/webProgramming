@@ -12,5 +12,5 @@ import java.util.List;
 public interface DiscussionRepository  extends JpaRepository<Discussion,Long> {
     List<Discussion> findAllByParticipantsContaining(User participant);
     List<Discussion> findAllByDueDateBefore(LocalDate localDate);
-    List<Discussion> findAllByDueDateBeforeAndParticipantsContaining(User user,LocalDate localDate);
+    List<Discussion> findAllByParticipantsContainingAndDueDateBefore(User user,LocalDate localDate);
 }

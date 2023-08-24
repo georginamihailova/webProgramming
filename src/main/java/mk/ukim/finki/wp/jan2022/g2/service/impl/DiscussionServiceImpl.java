@@ -99,15 +99,17 @@ public class DiscussionServiceImpl implements DiscussionService
 
     @Override
     public List<Discussion> filter(Long participantId, Integer daysUntilClosing) {
-        User user = this.userRepository.findById(participantId).orElseThrow(InvalidUserIdException::new);
         LocalDate now = LocalDate.now();
-        LocalDate days = now.plusDays(daysUntilClosing);
-        if (user == null && daysUntilClosing != null){
+        if (participantId == null && daysUntilClosing != null){
+            LocalDate days = now.plusDays(daysUntilClosing);
             return this.discussionRepository.findAllByDueDateBefore(days);
-        } else if (user!=null && daysUntilClosing == null) {
+        } else if (participantId!=null && daysUntilClosing == null) {
+            User user = this.userRepository.findById(participantId).orElseThrow(InvalidUserIdException::new);
             return this.discussionRepository.findAllByParticipantsContaining(user);
-        } else if (user != null && daysUntilClosing != null) {
-            return this.discussionRepository.findAllByDueDateBeforeAndParticipantsContaining(user,days);
+        } else if (participantId != null && daysUntilClosing != null) {
+            LocalDate days = now.plusDays(daysUntilClosing);
+            User user = this.userRepository.findById(participantId).orElseThrow(InvalidUserIdException::new);
+            return this.discussionRepository.findAllByParticipantsContainingAndDueDateBefore(user,days);
         }else return this.discussionRepository.findAll();
     }
 }
