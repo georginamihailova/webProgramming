@@ -82,7 +82,7 @@ public class SeleniumScenarioTest {
         listPage.filter("30", Gender.MALE.name());
         listPage.assertItems(3);
 
-g        SubmissionHelper.endTest();
+        SubmissionHelper.endTest();
     }
 
     @Order(3)
