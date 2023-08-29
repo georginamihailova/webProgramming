@@ -37,14 +37,9 @@ public class PlayerServiceImpl implements PlayerService {
     @Transactional
     public Player create(String name, String bio, Double pointsPerGame, PlayerPosition position, Long team) {
         Team team1 = null;
-        if (position == null) {
-            position = null;
-        }
         if (team != null) {
             team1 = this.teamRepository.findById(team).orElseThrow(InvalidTeamIdException::new);
 
-        } else {
-            team1 = null;
         }
         return this.playerRepository.save(new Player(name, bio, pointsPerGame, position, team1));
     }
@@ -60,8 +55,6 @@ public class PlayerServiceImpl implements PlayerService {
         if (team != null) {
             Team team1 = this.teamRepository.findById(team).orElseThrow(InvalidTeamIdException::new);
             player.setTeam(team1);
-        } else {
-            player.setTeam(null);
         }
         return this.playerRepository.save(player);
 
